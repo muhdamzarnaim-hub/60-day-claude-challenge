@@ -1,0 +1,618 @@
+
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;900&family=Space+Grotesk:wght@400;500;700&display=swap');
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  .profile-root {
+    font-family: 'Inter', sans-serif;
+    background: #070b14;
+    color: #e8edf5;
+    min-height: 100vh;
+    padding: 32px 20px 48px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .bg-grid {
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(49,120,255,0.04) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(49,120,255,0.04) 1px, transparent 1px);
+    background-size: 40px 40px;
+    pointer-events: none;
+  }
+
+  .bg-glow-1 {
+    position: absolute;
+    top: -80px; left: -80px;
+    width: 400px; height: 400px;
+    background: radial-gradient(circle, rgba(83,74,183,0.12) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .bg-glow-2 {
+    position: absolute;
+    bottom: -60px; right: -60px;
+    width: 350px; height: 350px;
+    background: radial-gradient(circle, rgba(29,158,117,0.1) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .container {
+    max-width: 680px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 1;
+  }
+
+  /* ── Header ── */
+  .header {
+    border: 0.5px solid rgba(83,74,183,0.4);
+    border-radius: 16px;
+    background: rgba(15,22,40,0.85);
+    padding: 28px 28px 24px;
+    margin-bottom: 16px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .header::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, #534ab7, #1d9e75, #534ab7);
+    opacity: 0.8;
+  }
+
+  .header-top {
+    display: flex;
+    align-items: flex-start;
+    gap: 18px;
+    margin-bottom: 16px;
+  }
+
+  .avatar-ring {
+    width: 72px; height: 72px;
+    border-radius: 50%;
+    border: 2px solid rgba(83,74,183,0.6);
+    display: flex; align-items: center; justify-content: center;
+    background: linear-gradient(135deg, rgba(83,74,183,0.2), rgba(29,158,117,0.15));
+    flex-shrink: 0;
+    position: relative;
+  }
+
+  .avatar-ring::after {
+    content: '';
+    position: absolute;
+    inset: -4px;
+    border-radius: 50%;
+    border: 1px solid rgba(83,74,183,0.2);
+  }
+
+  .avatar-icon {
+    font-size: 28px;
+    color: #a09be8;
+  }
+
+  .header-text { flex: 1; }
+
+  .ai-title-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: rgba(83,74,183,0.15);
+    border: 0.5px solid rgba(83,74,183,0.4);
+    border-radius: 100px;
+    padding: 3px 10px;
+    font-size: 11px;
+    font-weight: 500;
+    color: #a09be8;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin-bottom: 6px;
+  }
+
+  .dot-live {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: #1d9e75;
+    display: inline-block;
+  }
+
+  .profile-name {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 26px;
+    font-weight: 700;
+    color: #f0f4ff;
+    letter-spacing: -0.5px;
+    line-height: 1.15;
+  }
+
+  .profile-tagline {
+    font-size: 13px;
+    color: #7a8499;
+    margin-top: 4px;
+    font-weight: 400;
+  }
+
+  .cinematic-desc {
+    font-size: 13.5px;
+    line-height: 1.75;
+    color: #9ba8c0;
+    border-left: 2px solid rgba(83,74,183,0.5);
+    padding-left: 14px;
+    font-style: italic;
+  }
+
+  /* ── Stat row ── */
+  .stat-row {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    margin-bottom: 16px;
+  }
+
+  .stat-card {
+    background: rgba(15,22,40,0.85);
+    border: 0.5px solid rgba(255,255,255,0.07);
+    border-radius: 12px;
+    padding: 14px 16px;
+    text-align: center;
+  }
+
+  .stat-value {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 22px;
+    font-weight: 700;
+    color: #a09be8;
+    line-height: 1;
+    margin-bottom: 4px;
+  }
+
+  .stat-label {
+    font-size: 11px;
+    color: #5a6480;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+
+  /* ── Sections ── */
+  .section {
+    background: rgba(15,22,40,0.85);
+    border: 0.5px solid rgba(255,255,255,0.07);
+    border-radius: 14px;
+    padding: 20px 22px;
+    margin-bottom: 12px;
+  }
+
+  .section-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 14px;
+  }
+
+  .section-icon {
+    width: 28px; height: 28px;
+    border-radius: 7px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 14px;
+    flex-shrink: 0;
+  }
+
+  .icon-purple { background: rgba(83,74,183,0.2); color: #a09be8; }
+  .icon-teal   { background: rgba(29,158,117,0.15); color: #5dcaa5; }
+  .icon-amber  { background: rgba(186,117,23,0.15); color: #fac775; }
+  .icon-coral  { background: rgba(216,90,48,0.15); color: #f09997; }
+  .icon-blue   { background: rgba(23,95,165,0.15); color: #85b7eb; }
+
+  .section-title {
+    font-size: 13px;
+    font-weight: 500;
+    color: #d0d8ee;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+
+  /* Strength chips */
+  .chip-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 7px;
+  }
+
+  .chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 5px 11px;
+    border-radius: 100px;
+    font-size: 12px;
+    font-weight: 500;
+    line-height: 1;
+  }
+
+  .chip-str { background: rgba(29,158,117,0.12); border: 0.5px solid rgba(29,158,117,0.3); color: #5dcaa5; }
+  .chip-gap { background: rgba(186,117,23,0.1); border: 0.5px solid rgba(186,117,23,0.3); color: #fac775; }
+
+  /* Radar-style bar */
+  .skill-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 9px;
+  }
+
+  .skill-row:last-child { margin-bottom: 0; }
+
+  .skill-label {
+    font-size: 12px;
+    color: #7a8499;
+    width: 150px;
+    flex-shrink: 0;
+  }
+
+  .skill-bar-track {
+    flex: 1;
+    height: 4px;
+    background: rgba(255,255,255,0.05);
+    border-radius: 2px;
+    overflow: hidden;
+  }
+
+  .skill-bar-fill {
+    height: 100%;
+    border-radius: 2px;
+    background: linear-gradient(90deg, #534ab7, #1d9e75);
+  }
+
+  .skill-pct {
+    font-size: 11px;
+    color: #5a6480;
+    width: 32px;
+    text-align: right;
+    flex-shrink: 0;
+  }
+
+  /* Career paths */
+  .path-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+  }
+
+  .path-card {
+    background: rgba(83,74,183,0.06);
+    border: 0.5px solid rgba(83,74,183,0.2);
+    border-radius: 10px;
+    padding: 11px 13px;
+  }
+
+  .path-role {
+    font-size: 12.5px;
+    font-weight: 500;
+    color: #c0c8e4;
+    margin-bottom: 3px;
+  }
+
+  .path-why {
+    font-size: 11px;
+    color: #566080;
+    line-height: 1.4;
+  }
+
+  /* Learning style */
+  .learn-row {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    margin-bottom: 10px;
+  }
+
+  .learn-row:last-child { margin-bottom: 0; }
+
+  .learn-dot {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: #534ab7;
+    margin-top: 6px;
+    flex-shrink: 0;
+  }
+
+  .learn-text {
+    font-size: 13px;
+    color: #8a96b0;
+    line-height: 1.55;
+  }
+
+  .learn-text strong {
+    color: #c0c8e4;
+    font-weight: 500;
+  }
+
+  /* Elite upgrade */
+  .upgrade-item {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 10px;
+    align-items: flex-start;
+  }
+
+  .upgrade-num {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    color: #534ab7;
+    background: rgba(83,74,183,0.12);
+    border: 0.5px solid rgba(83,74,183,0.25);
+    border-radius: 5px;
+    width: 22px; height: 22px;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+
+  .upgrade-text {
+    font-size: 13px;
+    color: #8a96b0;
+    line-height: 1.5;
+  }
+
+  /* Differentiator */
+  .diff-highlight {
+    background: rgba(29,158,117,0.06);
+    border: 0.5px solid rgba(29,158,117,0.2);
+    border-radius: 10px;
+    padding: 14px 16px;
+    font-size: 13.5px;
+    color: #8a96b0;
+    line-height: 1.65;
+  }
+
+  .diff-highlight strong {
+    color: #5dcaa5;
+    font-weight: 500;
+  }
+
+  /* Footer */
+  .footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 20px;
+    padding-top: 16px;
+    border-top: 0.5px solid rgba(255,255,255,0.05);
+  }
+
+  .footer-badge {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 11px;
+    color: #3d4560;
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+
+  .footer-logo {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: #534ab7;
+  }
+
+  .footer-type {
+    font-size: 11px;
+    color: #3d4560;
+  }
+
+  /* scan line */
+  .scanline {
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(83,74,183,0.4), transparent);
+    animation: scan 4s linear infinite;
+    pointer-events: none;
+  }
+
+  @keyframes scan {
+    0% { top: 0; opacity: 0; }
+    10% { opacity: 1; }
+    90% { opacity: 1; }
+    100% { top: 100%; opacity: 0; }
+  }
+</style>
+
+<div class="profile-root">
+  <div class="bg-grid"></div>
+  <div class="bg-glow-1"></div>
+  <div class="bg-glow-2"></div>
+
+  <div class="container">
+
+    <!-- HEADER -->
+    <div class="header">
+      <div class="scanline"></div>
+      <div class="header-top">
+        <div class="avatar-ring">
+          <i class="ti ti-brain avatar-icon" aria-hidden="true"></i>
+        </div>
+        <div class="header-text">
+          <div class="ai-title-badge">
+            <span class="dot-live"></span>
+            AI Personality Profile · Active
+          </div>
+          <div class="profile-name">The Strategic Connector</div>
+          <div class="profile-tagline">Transformational Leader · AI-Enabled Builder · Pattern Synthesizer</div>
+        </div>
+      </div>
+      <div class="cinematic-desc">
+        A forward-thinking strategist thriving at the intersection of people, process, and technology. He sees patterns where others see complexity — dismantling silos, connecting systems, and designing elegant solutions that solve multiple challenges simultaneously. Calm under pressure, relentlessly curious, driven by meaningful impact.
+      </div>
+    </div>
+
+    <!-- STATS -->
+    <div class="stat-row">
+      <div class="stat-card">
+        <div class="stat-value">13+</div>
+        <div class="stat-label">Years Leadership</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value">∞</div>
+        <div class="stat-label">Industries Bridged</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value">AI×</div>
+        <div class="stat-label">Multiplier Mode</div>
+      </div>
+    </div>
+
+    <!-- AI WORKING STYLE -->
+    <div class="section">
+      <div class="section-header">
+        <div class="section-icon icon-purple"><i class="ti ti-circuit-cell" aria-hidden="true"></i></div>
+        <div class="section-title">AI Working Style</div>
+      </div>
+      <div class="skill-row">
+        <div class="skill-label">Learning accelerator</div>
+        <div class="skill-bar-track"><div class="skill-bar-fill" style="width:95%"></div></div>
+        <div class="skill-pct">95%</div>
+      </div>
+      <div class="skill-row">
+        <div class="skill-label">Strategic thinking partner</div>
+        <div class="skill-bar-track"><div class="skill-bar-fill" style="width:90%"></div></div>
+        <div class="skill-pct">90%</div>
+      </div>
+      <div class="skill-row">
+        <div class="skill-label">Research & synthesis</div>
+        <div class="skill-bar-track"><div class="skill-bar-fill" style="width:88%"></div></div>
+        <div class="skill-pct">88%</div>
+      </div>
+      <div class="skill-row">
+        <div class="skill-label">Process optimization</div>
+        <div class="skill-bar-track"><div class="skill-bar-fill" style="width:85%"></div></div>
+        <div class="skill-pct">85%</div>
+      </div>
+      <div class="skill-row">
+        <div class="skill-label">Advanced AI workflows</div>
+        <div class="skill-bar-track"><div class="skill-bar-fill" style="width:65%"></div></div>
+        <div class="skill-pct">65%</div>
+      </div>
+    </div>
+
+    <!-- STRENGTHS & GAPS -->
+    <div class="section">
+      <div class="section-header">
+        <div class="section-icon icon-teal"><i class="ti ti-topology-star-3" aria-hidden="true"></i></div>
+        <div class="section-title">Strengths & Growth Areas</div>
+      </div>
+      <div class="chip-grid" style="margin-bottom:12px;">
+        <span class="chip chip-str"><i class="ti ti-check" style="font-size:11px"></i> Systems connector</span>
+        <span class="chip chip-str"><i class="ti ti-check" style="font-size:11px"></i> Complexity simplifier</span>
+        <span class="chip chip-str"><i class="ti ti-check" style="font-size:11px"></i> Fast practical solutions</span>
+        <span class="chip chip-str"><i class="ti ti-check" style="font-size:11px"></i> Vision + execution balance</span>
+        <span class="chip chip-str"><i class="ti ti-check" style="font-size:11px"></i> Cross-industry transfer</span>
+      </div>
+      <div class="chip-grid">
+        <span class="chip chip-gap"><i class="ti ti-trending-up" style="font-size:11px"></i> Deeper trend exploration</span>
+        <span class="chip chip-gap"><i class="ti ti-trending-up" style="font-size:11px"></i> Structured learning routines</span>
+      </div>
+    </div>
+
+    <!-- CAREER PATHS -->
+    <div class="section">
+      <div class="section-header">
+        <div class="section-icon icon-blue"><i class="ti ti-rocket" aria-hidden="true"></i></div>
+        <div class="section-title">Ideal Career Trajectory</div>
+      </div>
+      <div class="path-grid">
+        <div class="path-card">
+          <div class="path-role"><i class="ti ti-building-skyscraper" style="font-size:13px; margin-right:5px" aria-hidden="true"></i>Executive Leader</div>
+          <div class="path-why">C-suite or VP driving org-wide transformation at scale</div>
+        </div>
+        <div class="path-card">
+          <div class="path-role"><i class="ti ti-refresh" style="font-size:13px; margin-right:5px" aria-hidden="true"></i>Digital Transformation Lead</div>
+          <div class="path-why">Modernizing legacy systems with AI and process redesign</div>
+        </div>
+        <div class="path-card">
+          <div class="path-role"><i class="ti ti-bulb" style="font-size:13px; margin-right:5px" aria-hidden="true"></i>Innovation Strategist</div>
+          <div class="path-why">Building bridges between emerging tech and business value</div>
+        </div>
+        <div class="path-card">
+          <div class="path-role"><i class="ti ti-device-laptop" style="font-size:13px; margin-right:5px" aria-hidden="true"></i>AI-Enabled Founder</div>
+          <div class="path-why">Startup with AI-native operations and cross-market insights</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- LEARNING & DECISION STYLE -->
+    <div class="section">
+      <div class="section-header">
+        <div class="section-icon icon-amber"><i class="ti ti-arrows-shuffle" aria-hidden="true"></i></div>
+        <div class="section-title">Learning & Decision-Making Style</div>
+      </div>
+      <div class="learn-row">
+        <div class="learn-dot"></div>
+        <div class="learn-text"><strong>Explorer first, master second.</strong> Dives into unfamiliar domains with genuine curiosity, tolerates ambiguity during ramp-up, then emerges with refined, out-of-the-box frameworks.</div>
+      </div>
+      <div class="learn-row">
+        <div class="learn-dot"></div>
+        <div class="learn-text"><strong>Agile decision-maker.</strong> Balances speed and impact — doesn't over-index on analysis paralysis, pivots fluidly as context changes.</div>
+      </div>
+      <div class="learn-row">
+        <div class="learn-dot"></div>
+        <div class="learn-text"><strong>Pattern synthesizer.</strong> Once mastery hits, instinctively connects it to adjacent domains — creating solutions no single-track expert would reach.</div>
+      </div>
+    </div>
+
+    <!-- WHAT MAKES YOU DIFFERENT -->
+    <div class="section">
+      <div class="section-header">
+        <div class="section-icon icon-coral"><i class="ti ti-dna" aria-hidden="true"></i></div>
+        <div class="section-title">The Differentiator</div>
+      </div>
+      <div class="diff-highlight">
+        More than <strong>13 years of multi-industry leadership</strong> gives you a rare superpower: <strong>cross-pollinating best practices</strong> across markets and functions others can't see across. You don't just find answers — you <strong>synthesize insights into scalable systems</strong>. Most AI users get outputs. You build architectures.
+      </div>
+    </div>
+
+    <!-- ELITE UPGRADE PATH -->
+    <div class="section">
+      <div class="section-header">
+        <div class="section-icon icon-purple"><i class="ti ti-chart-arrows-vertical" aria-hidden="true"></i></div>
+        <div class="section-title">Path to Elite AI User</div>
+      </div>
+      <div class="upgrade-item">
+        <div class="upgrade-num">1</div>
+        <div class="upgrade-text">Build deliberate curiosity rituals — scheduled time for exploring AI trends beyond immediate business needs</div>
+      </div>
+      <div class="upgrade-item">
+        <div class="upgrade-num">2</div>
+        <div class="upgrade-text">Experiment with agent-based AI systems and multi-step automation workflows</div>
+      </div>
+      <div class="upgrade-item">
+        <div class="upgrade-num">3</div>
+        <div class="upgrade-text">Create a personal learning OS: structured sprints combining technical depth + strategic application</div>
+      </div>
+      <div class="upgrade-item">
+        <div class="upgrade-num">4</div>
+        <div class="upgrade-text">Document and share your cross-industry pattern library — this is your unfair advantage, systematized</div>
+      </div>
+    </div>
+
+    <!-- FOOTER -->
+    <div class="footer">
+      <div class="footer-badge">
+        <div class="footer-logo"></div>
+        AI Personality Profile · 2026
+      </div>
+      <div class="footer-type">Continuous-Learning AI User · Lvl: Strategic</div>
+    </div>
+
+  </div>
+</div>
